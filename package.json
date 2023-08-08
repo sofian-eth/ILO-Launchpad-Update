@@ -1,0 +1,19 @@
+{
+  "name": "ilo-launchpad",
+  "version": "1.0.0",
+  "description": "Download all files from this github repo and organise them in seperate folders for each chain (ETH mainnet, BSC and Polygon)\r Upload the files to remix IDE (https://remix.ethereum.org/)\r Make sure your metamask is connected to the network you're trying to deploy it to\r Select the proper compiler version and compile all smart contracts\r Deploy investmentsinfo.sol separately for Launchpad, Fairlaunch and Private Sale\r Pass the address of investmentsinfo.sol to the factory contract of launchpad/fairlaunch/private sale in constructor during deployment\r LiqGenTokenFactory and CreateTokenFactory are single files for token generation\r SSSairdropfactory.sol is the factory contract for Public Airdrop\r SEairdropfactory.sol is the factory contract for Private Airdrop\r SSSlockfactory.sol is the factory contract for tokenlock",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.17.1"
+  },
+  "dependencies": {
+    "ethers": "^6.7.0"
+  }
+}
