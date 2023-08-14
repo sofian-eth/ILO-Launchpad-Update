@@ -28,6 +28,7 @@ contract FairlaunchFactory {
 
     struct PresaleInfo {
         address tokenAddress;
+        uint256 decimals;
         uint256 tokenQuantity;
         uint256 softCapInWei;
         uint256 openTime;
@@ -72,6 +73,7 @@ contract FairlaunchFactory {
         _flaunch.setAddressInfo(msg.sender, _info.tokenAddress);
         _flaunch.setGeneralInfo(
             _totalTokens,
+            _info.decimals,
             _totalTokensinPool,
             _info.softCapInWei,
             _info.openTime,

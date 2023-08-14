@@ -48,6 +48,7 @@ contract InvestmentsPresale {
     uint256 public presaleCreatorClaimWei; // wei to transfer to presale creator per investor claim
     uint256 public presaleCreatorClaimTime; // time when presale creator can collect funds raise
     uint256 public totalCollectedWei; // total wei collected
+    uint256 public decimals;
     uint256 public totalTokens; // total tokens to be sold
     uint256 public tokensLeft; // available tokens to be sold
     uint256 public tokenPriceInWei; // token presale wei price per 1 token
@@ -144,6 +145,7 @@ contract InvestmentsPresale {
 
     function setGeneralInfo(
         uint256 _totalTokens,
+        uint256 _decimals,
         uint256 _totalTokensinPool,
         uint256 _tokenPriceInWei,
         uint256 _hardCapInWei,
@@ -159,6 +161,7 @@ contract InvestmentsPresale {
         require(_openTime > 0, "open time should be greater than 0");
         require(_closeTime > 0, "close time should be greater than 0");
         require(_hardCapInWei > 0, "hard cap should be greater than 0");
+        require(_decimals > 0, "Decimals should be greater than 0");
 
         // Hard cap > (token amount * token price)
         require(_hardCapInWei <= _totalTokens.mul(_tokenPriceInWei), "total tokens * token price should be greater than hard cap");
@@ -170,6 +173,7 @@ contract InvestmentsPresale {
         require(_openTime < _closeTime, "close time to be greater than open time");
 
         totalTokens = _totalTokensinPool;
+        decimals = _decimals;
         tokensLeft = _totalTokens;
         tokenPriceInWei = _tokenPriceInWei;
         hardCapInWei = _hardCapInWei;
@@ -305,7 +309,7 @@ contract InvestmentsPresale {
     view
     returns (uint256)
     {
-        return _weiAmount.mul(1e18).div(tokenPriceInWei);
+        return _weiAmount.mul(10 ** decimals).div(tokenPriceInWei);
     }
 
     function invest()
@@ -381,7 +385,7 @@ contract InvestmentsPresale {
         }
 
         uint256 liqPoolEthAmount = finalTotalCollectedWei.mul(uniLiquidityPercentageAllocation).div(100);
-        uint256 liqPoolTokenAmount = liqPoolEthAmount.mul(1e18).div(uniListingPriceInWei);
+        uint256 liqPoolTokenAmount = liqPoolEthAmount.mul(10 ** decimals).div(uniListingPriceInWei);
 
         token.approve(address(PancakeFactory), liqPoolTokenAmount);
 

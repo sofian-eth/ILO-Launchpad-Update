@@ -49,6 +49,7 @@ contract Fairlaunch {
     uint256 public presaleCreatorClaimTime; // time when presale creator can collect funds raise
     uint256 public totalCollectedWei; // total wei collected
     uint256 public totalTokens; // total tokens to be sold
+    uint256 public decimals; // token decimals
     uint256 public tokensforLiquidity; // available tokens to be sold
     uint256 public tokenPriceInWei; // token presale wei price per 1 token
     //uint256 public hardCapInWei; // maximum wei amount that can be invested in presale
@@ -142,6 +143,7 @@ contract Fairlaunch {
 
     function setGeneralInfo(
         uint256 _totalTokens,
+        uint256 _decimals,
         uint256 _totalTokensinPool,
         //uint256 _tokenPriceInWei,
         //uint256 _hardCapInWei,
@@ -166,8 +168,10 @@ contract Fairlaunch {
         //require(_minInvestInWei <= _maxInvestInWei);
         // Open time >= close time
         require(_openTime < _closeTime, "close time should be greater than open time");
+        require(_decimals > 0, "Decimals need to be greater than 0");
 
         totalTokens = _totalTokens;
+        decimals = _decimals;
         tokensforLiquidity = _totalTokensinPool;
         //tokenPriceInWei = _tokenPriceInWei;
         //hardCapInWei = _hardCapInWei;
@@ -270,7 +274,7 @@ contract Fairlaunch {
     view
     returns (uint256)
     {
-        return _weiAmount.mul(1e18).div(tokenPriceInWei);
+        return _weiAmount.mul(10 ** decimals).div(tokenPriceInWei);
     }
 
     function invest()

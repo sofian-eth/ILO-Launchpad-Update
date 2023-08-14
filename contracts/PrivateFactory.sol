@@ -28,6 +28,7 @@ contract PrivateInvestmentsFactory {
 
     struct PresaleInfo {
         address tokenAddress;
+        uint256 decimals;
         address[] whitelistedAddresses;
         uint256 tokenPriceInWei;
         uint256 hardCapInWei;
@@ -79,6 +80,7 @@ contract PrivateInvestmentsFactory {
         _presale.setAddressInfo(msg.sender, _info.tokenAddress);
         _presale.setGeneralInfo(
             _totalTokens,
+            _info.decimals,
             _totalTokensinPool,
             _finalTokenPriceInWei,
             _info.hardCapInWei,
@@ -118,9 +120,9 @@ contract PrivateInvestmentsFactory {
         require(existingPairAddress == address(0), "Pair already exists"); // token should not be listed in PancakeSwap
 
         uint256 maxEthPoolTokenAmount = _info.hardCapInWei.mul(_uniInfo.liquidityPercentageAllocation).div(100);
-        uint256 maxLiqPoolTokenAmount = maxEthPoolTokenAmount.mul(1e18).div(_uniInfo.listingPriceInWei);
+        uint256 maxLiqPoolTokenAmount = maxEthPoolTokenAmount.mul(10 ** _info.decimals).div(_uniInfo.listingPriceInWei);
 
-        uint256 maxTokensToBeSold = _info.hardCapInWei.mul(1e18).div(_info.tokenPriceInWei);
+        uint256 maxTokensToBeSold = _info.hardCapInWei.mul(10 ** _info.decimals).div(_info.tokenPriceInWei);
         uint256 requiredTokenAmount = maxLiqPoolTokenAmount.add(maxTokensToBeSold);
         token.transferFrom(msg.sender, address(presale), requiredTokenAmount);
 
@@ -158,9 +160,9 @@ contract PrivateInvestmentsFactory {
         require(existingPairAddress == address(0), "Pair already exists"); // token should not be listed in PancakeSwap
 
         uint256 maxEthPoolTokenAmount = _info.hardCapInWei.mul(_uniInfo.liquidityPercentageAllocation).div(100);
-        uint256 maxLiqPoolTokenAmount = maxEthPoolTokenAmount.mul(1e18).div(_uniInfo.listingPriceInWei);
+        uint256 maxLiqPoolTokenAmount = maxEthPoolTokenAmount.mul(10 ** _info.decimals).div(_uniInfo.listingPriceInWei);
 
-        uint256 maxTokensToBeSold = _info.hardCapInWei.mul(1e18).div(_info.tokenPriceInWei);
+        uint256 maxTokensToBeSold = _info.hardCapInWei.mul(10 ** _info.decimals).div(_info.tokenPriceInWei);
         uint256 requiredTokenAmount = maxLiqPoolTokenAmount.add(maxTokensToBeSold);
         token.transferFrom(msg.sender, address(presale), requiredTokenAmount);
 
